@@ -13,28 +13,38 @@ class CommentScreen extends StatefulWidget {
 }
 
 class _CommentScreenState extends State<CommentScreen> {
-  late APIResponse<List<Comment>> response;
+  APIResponse<List<Comment>>? response;
 
   @override
-  void initState() async {
-    response = await getIt.get<CommentService>().getComments();
+  void initState() {
+    _getComments();
     super.initState();
   }
+
+  void _getComments() async {
+    final result = await getIt.get<CommentService>().getComments();
+    setState(() {
+      response = result;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    if(!response.isError) {
-      final comments = response.data!;
-      return ListView.builder(
-        itemBuilder: (BuildContext context, int index) {
-          return CommentCard(
-            name: comments[index].name,
-            body: comments[index].body,
-          );
-        },
-        itemCount: comments.length,
-      );
-    } else if (response.isError) {
-      return Text(response.errorMessage!);
+    if (response != null) {
+      if(!response!.isError && response!.data !=null) {
+        final comments = response!.data!;
+        return ListView.builder(
+          itemBuilder: (BuildContext context, int index) {
+            return CommentCard(
+              name: comments[index].name,
+              body: comments[index].body,
+            );
+          },
+          itemCount: comments.length,
+        );
+      } else {
+        return Text(response!.errorMessage!);
+      }
     } else {
       return const CircularProgressIndicator();
     }

@@ -39,7 +39,7 @@ class CommentServiceImpl implements CommentService {
 
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
-        final List<Comment> comments = jsonData.map((comment) => Comment.fromJson(comment)).toList();
+        final List<Comment> comments = jsonData.map<Comment>((comment) => Comment.fromJson(comment)).toList() as List<Comment>;
         return APIResponse<List<Comment>>(
           data: comments,
         );
@@ -64,7 +64,7 @@ class CommentServiceImpl implements CommentService {
 
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
-        final List<Comment> postComments = jsonData.map((postComment) => Comment.fromJson(postComment)).toList();
+        final List<Comment> postComments = jsonData.map<Comment>((postComment) => Comment.fromJson(postComment)).toList();
         return APIResponse<List<Comment>>(
           data: postComments,
         );

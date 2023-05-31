@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get_injectable/di/di.dart';
 import 'package:get_injectable/screens/comment_screen.dart';
 import 'package:get_injectable/screens/post_screen.dart';
 import 'package:get_injectable/screens/user_screen.dart';
 
 void main() {
+  configureDependencies();
   runApp(const MyApp());
 }
 

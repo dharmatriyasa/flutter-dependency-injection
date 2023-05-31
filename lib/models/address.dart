@@ -21,7 +21,7 @@ class Address {
       suite: json['suite'],
       city: json['city'],
       zipcode: json['zipcode'],
-      geo: json['geo'],
+      geo: Geo.fromJson(json['geo']),
     );
   }
 }

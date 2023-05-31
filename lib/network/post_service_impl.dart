@@ -41,7 +41,7 @@ class PostServiceImpl implements PostService {
 
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
-        final posts = jsonData.map((post) => Post.fromJson(post)).toList();
+        final posts = jsonData.map<Post>((post) => Post.fromJson(post)).toList() as List<Post>;
         return APIResponse<List<Post>>(
           data: posts,
         );

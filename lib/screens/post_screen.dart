@@ -13,30 +13,39 @@ class PostScreen extends StatefulWidget {
 }
 
 class _PostScreenState extends State<PostScreen> {
-  late APIResponse<List<Post>> response;
+  APIResponse<List<Post>>? response;
 
   @override
-  void initState() async {
-    response = await getIt.get<PostService>().getPosts();
+  void initState() {
+    _getPosts();
     super.initState();
+  }
+
+  void _getPosts() async {
+    final result = await getIt.get<PostService>().getPosts();
+    setState(() {
+      response = result;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (!response.isError) {
-      final posts = response.data!;
-      return ListView.builder(
-        itemBuilder: (BuildContext context, int index) {
-          return PostCard(
-            title: posts[index].title,
-            body: posts[index].body,
-            name: posts[index].title,
-            email: posts[index].title,
-          );
-        },
-      );
-    } else if (response.isError) {
-      return Text(response.errorMessage!);
+    if (response != null) {
+      if (!response!.isError) {
+        final posts = response!.data!;
+        return ListView.builder(
+          itemBuilder: (BuildContext context, int index) {
+            return PostCard(
+              title: posts[index].title,
+              body: posts[index].body,
+              name: posts[index].title,
+              email: posts[index].title,
+            );
+          },
+        );
+      } else {
+        return Text(response!.errorMessage!);
+      }
     } else {
       return const CircularProgressIndicator();
     }

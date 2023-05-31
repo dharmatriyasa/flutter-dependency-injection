@@ -39,7 +39,7 @@ class UserServiceImpl implements UserService {
 
       if (response.statusCode == 200) {
         final jsonData = jsonDecode(response.body);
-        final users = jsonData.map((user) => User.fromJson(user)).toList();
+        final users = jsonData.map<User>((user) => User.fromJson(user)).toList();
         return APIResponse<List<User>>(
           data: users,
         );
@@ -50,11 +50,11 @@ class UserServiceImpl implements UserService {
         );
       }
     } catch (e) {
+      print("result: $e");
       return APIResponse<List<User>>(
         isError: true,
         errorMessage: "Connection issue, try again later.",
       );
     }
   }
-
 }
